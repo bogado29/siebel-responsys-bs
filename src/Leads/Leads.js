@@ -69,7 +69,7 @@ function Leads(Inputs, Outputs) {
       TheApplication().RaiseErrorText("Error geting RowId Value");
     }
 
-    // Responsys Hostname name Input Parameter:
+    // Responsys Hostname name LOV Parameter:
     var sHostname = TheApplication().InvokeMethod(
       "LookupValue",
       "UA_RESPONSYS_LOV",
