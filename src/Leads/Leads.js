@@ -74,7 +74,7 @@ function Leads(Inputs, Outputs) {
         break;
     }
 
-    // Build POST Endpoint
+    // Build POST Endpoint.
     var sURL =
       "https://" +
       sHostname +
