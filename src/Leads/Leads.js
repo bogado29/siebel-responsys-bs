@@ -70,7 +70,7 @@ function Leads(Inputs, Outputs) {
     }
 
     // Responsys Hostname name LOV Parameter:
-    var sHostname = TheApplication().InvokeMethod(
+    var sHostname:chars = TheApplication().InvokeMethod(
       "LookupValue",
       "UA_RESPONSYS_LOV",
       "HOSTNAME"
@@ -81,6 +81,19 @@ function Leads(Inputs, Outputs) {
         Outputs.SetProperty("ErrorMessagge", "Error geting HOSTNAME LOV Value");
         TheApplication().RaiseErrorText("Error geting HOSTNAME LOV Value");
     }
+
+    // Responsys Hostname name LOV Parameter:
+    var sScope:chars = TheApplication().InvokeMethod(
+      "LookupValue",
+      "UA_RESPONSYS_LOV",
+      "SCOPE"
+    );
+    if (sHostname == null) {
+      Outputs.SetProperty("Response", null);
+      Outputs.SetProperty("ErrorCode", 04);
+      Outputs.SetProperty("ErrorMessagge", "Error geting HOSTNAME LOV Value");
+      TheApplication().RaiseErrorText("Error geting HOSTNAME LOV Value");
+  }
 
     // Build POST Endpoint
     var sURL =
@@ -101,8 +114,14 @@ function Leads(Inputs, Outputs) {
     var aInterface = new Array();
     aInterface[0] = new Element("CUSTOMER_ID_","CustomerID","","string");
     aInterface[1] = new Element("EMAIL_ADDRESS_","EmailAddress","","string");
-    aInterface[2] = new Element("QA_NRO_LEAD","NroDeAfiliado","","string");      
-
+    aInterface[2] = new Element("QA_NRO_LEAD","NroDeAfiliado","","string");
+    aInterface[3] = new Element("QA_ESTADO","Estado","","string");
+    aInterface[4] = new Element("QA_ORGANIZACION_EMISORA","OrganizacionEmisora","","string");
+    aInterface[5] = new Element("QA_ORIGEN_LEAD","OrigenLead","","string");
+    aInterface[6] = new Element("QA_SUB_ORIGEN_LEAD","SubOrigenLead","","string");
+    aInterface[7] = new Element("QA_DETALLE_SUB_ORIGEN","DetalleSubOrigen","","string");
+    aInterface[8] = new Element("QA_TIPO_VIAJE","DetalleSubOrigen","","string");
+    
 
     var sRequest = '{\"recordData\": ' +
             '{\"fieldNames\":' +
