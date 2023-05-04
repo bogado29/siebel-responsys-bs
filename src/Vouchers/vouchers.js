@@ -16,7 +16,7 @@ function Vouchers(Inputs, Outputs) {
       TheApplication().RaiseErrorText("Error geting ListName Value");
     }
 
-    // Responsys List Name
+    // Responsys ListName name Input Parameter:
     var sListName: chars = Inputs.GetProperty("ListName");
     if (sListName == null) {
       Outputs.SetProperty("Response", null);
@@ -33,6 +33,46 @@ function Vouchers(Inputs, Outputs) {
       Outputs.SetProperty("ErrorMessagge", "Error geting RowId Value");
       TheApplication().RaiseErrorText("Error geting RowId Value");
     }
+
+    // Responsys Hostname name LOV Parameter:
+    var sHostname = TheApplication().InvokeMethod(
+      "LookupValue",
+      "UA_RESPONSYS_LOV",
+      "HOSTNAME"
+    );
+    if (sHostname == null) {
+      Outputs.SetProperty("Response", null);
+      Outputs.SetProperty("ErrorCode", 03);
+      Outputs.SetProperty("ErrorMessagge", "Error geting HOSTNAME LOV Value");
+      TheApplication().RaiseErrorText("Error geting HOSTNAME LOV Value");
+    }
+
+    // Responsys Scope Name LOV Parameter:
+    var sScope: chars = TheApplication().InvokeMethod(
+      "LookupValue",
+      "UA_RESPONSYS_LOV",
+      "SCOPE"
+    );
+    switch (sScope) {
+      case null:
+        Outputs.SetProperty("Response", null);
+        Outputs.SetProperty("ErrorCode", 05);
+        Outputs.SetProperty("ErrorMessagge", "Error geting SCOPE LOV Value");
+        TheApplication().RaiseErrorText("Error geting SCOPE LOV Value");
+        break;
+      case "PROD":
+        sScope = "";
+        break;
+      case "QA":
+        sScope = "QA_";
+        break;
+      default:
+        Outputs.SetProperty("Response", null);
+        Outputs.SetProperty("ErrorCode", 05);
+        Outputs.SetProperty("ErrorMessagge", "Error geting SCOPE LOV Value");
+        TheApplication().RaiseErrorText("Error geting SCOPE LOV Value");
+        break;
+    }    
 
     // Field Parameters
     var sNroVoucher: chars = Inputs.GetProperty("NroVoucher");
@@ -72,18 +112,6 @@ function Vouchers(Inputs, Outputs) {
     );
     var sProductoNombre: chars = Inputs.GetProperty("ProductoNombre");
 
-    // Responsys Hostname name LOV Parameter:
-    var sHostname = TheApplication().InvokeMethod(
-      "LookupValue",
-      "UA_RESPONSYS_LOV",
-      "HOSTNAME"
-    );
-    if (sHostname == null) {
-      Outputs.SetProperty("Response", null);
-      Outputs.SetProperty("ErrorCode", 03);
-      Outputs.SetProperty("ErrorMessagge", "Error geting HOSTNAME LOV Value");
-      TheApplication().RaiseErrorText("Error geting HOSTNAME LOV Value");
-    }
 
     // Build POST Endpoint
     var sURL =
