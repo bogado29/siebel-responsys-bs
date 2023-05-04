@@ -132,10 +132,50 @@ function Reintegros(Inputs, Outputs) {
     var sTelefonoContacto: chars = Inputs.GetProperty("TelefonoContacto");
 
     // Build request Body
-    var sRequest =
-      "{" +
-      '"recordData": {' +
-      '"fieldNames": [' +
+    var sRequest = '{"recordData": ' + '{"fieldNames":[';
+    var sLeftFiller = '"';
+    var sRightFiller = '",';
+    var aInterface = new Array();
+    aInterface[0] = new Element(sScope + "NRO_SOLICITUD", "NroSolicitud", "", "string");
+    aInterface[1] = new Element(sScope + "USUARIO_CAMBIO_ESTADO", "UsuarioCambioEstado", "", "string");
+    aInterface[2] = new Element(sScope + "SUBESTADO_REINTEGRO", "SubestadoReintegro", "", "string");
+    aInterface[3] = new Element(sScope + "ESTADO_INFORMAR", "EstadoInformar", "", "string");
+    aInterface[4] = new Element(sScope + "ORIGEN_SOLICITUD", "OrigenSolicitud", "", "string");
+    aInterface[5] = new Element(sScope + "UNIDAD_OPERATIVA", "UnidadOperativa", "", "string");
+    aInterface[6] = new Element(sScope + "MOTIVO_CASO", "MotivoCaso", "", "string");
+    aInterface[7] = new Element(sScope + "VOUCHER_COBERTURA_DE_CASO", "VoucherCoberturaDeCaso", "", "string");
+    aInterface[8] = new Element(sScope + "N_DE_CASO_ASOCIADO", "NDeCasoAsociado", "", "string");
+    aInterface[9] = new Element(sScope + "CLIENTE_CASO_ASOCIADO", "ClienteCasoAsociado", "", "string");
+    // Ver esta columna
+    aInterface[10] = new Element(sScope + "QORGANIZACION_EMISORA_DEL_CASO", "QOrganizacionDelCaso", "", "string");
+    aInterface[11] = new Element(sScope + "EMAIL_REINTEGRO", "EmailReintegro", "", "string");
+    aInterface[12] = new Element(sScope + "N_PRESTACION_PRINCIPAL", "NPrestacionPrincipal", "", "string");
+    aInterface[13] = new Element(sScope + "NOMENCLADOR", "Nomenclador", "", "string");
+    aInterface[14] = new Element(sScope + "PAGADO_REINTEGRO", "PagadoReintegro", "", "string");
+    aInterface[15] = new Element(sScope + "FECHA_DE_PAGO", "FechaDePago", "", "string");
+    aInterface[16] = new Element(sScope + "DIAS_AUDITORIA_PAGO", "DiasAuditoriaPago", "", "string");
+    aInterface[17] = new Element(sScope + "CONFIRMACION_PAGO", "ConfirmacionPago", "", "string");
+    aInterface[18] = new Element(sScope + "ESTADO", "Estado", "", "string");
+    aInterface[19] = new Element(sScope + "FECHA_CREACION_SIEBEL", "FechaCreacionSiebel", "", "string");
+    aInterface[20] = new Element(sScope + "PAIS", "Pais", "", "string");
+    aInterface[21] = new Element(sScope + "APELLIDO_PASAJERO", "ApellidoPasajero", "", "string");
+    aInterface[22] = new Element(sScope + "NOMBRE_PASAJERO", "NombrePasajero", "", "string");
+    aInterface[23] = new Element(sScope + "FECHA_CAMBIO_ESTADO", "FechaCambioEstado", "", "string");
+    aInterface[24] = new Element(sScope + "FECHA_AUDITORIA", "FechaAuditoria", "", "string");
+    aInterface[25] = new Element(sScope + "AUDITADO_MARCA_FLAG", "AuditadoMarcaFlag", "", "string");
+    aInterface[26] = new Element(sScope + "NRO_DE_CASO", "NroDeCaso", "", "string");
+    aInterface[27] = new Element(sScope + "MONTO_PRESENTADO", "MontoPresentado", "", "string");
+    aInterface[28] = new Element(sScope + "MONTO_AUTORIZADO", "MontoAutorizado", "", "string");
+    aInterface[29] = new Element(sScope + "MONTO_RECHAZADO", "MontoRechazado", "", "string");
+    aInterface[30] = new Element(sScope + "MONEDA", "Moneda", "", "string");
+    aInterface[31] = new Element(sScope + "TIPO_DOCUMENTO", "TipoDocumento", "", "string");
+    aInterface[32] = new Element(sScope + "NRO_DOCUMENTO", "NroDocumento", "", "string");
+    aInterface[33] = new Element("EMAIL_ADDRESS_", "EmailAddress", "", "string");
+    aInterface[34] = new Element("CUSTOMER_ID_", "CustomerID", "", "string");
+    aInterface[35] = new Element(sScope + "TELEFONO_CONTACTO", "TelefonoContacto", "", "string");
+
+
+
       '"QA_NRO_SOLICITUD",' +
       '"QA_USUARIO_CAMBIO_ESTADO",' +
       '"QA_SUBESTADO_REINTEGRO",' +
@@ -146,7 +186,7 @@ function Reintegros(Inputs, Outputs) {
       '"QA_VOUCHER_COBERTURA_DE_CASO",' +
       '"QA_N_DE_CASO_ASOCIADO",' +
       '"QA_CLIENTE_CASO_ASOCIADO",' +
-      '"QORGANIZACION_EMISORA_DEL_CASO",' +
+      '"QORGANIZACION_EMISORA_DEL_CASO",' + //Ver Esta Columna
       '"QA_EMAIL_REINTEGRO",' +
       '"QA_N_PRESTACION_PRINCIPAL",' +
       '"QA_NOMENCLADOR",' +
