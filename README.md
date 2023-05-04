@@ -16,3 +16,5 @@ Hay que agregar la lista de valores a Siebel.
       "LookupValue", 
       "UA_RESPONSYS_LOV",
       "SCOPE"
+
+      
