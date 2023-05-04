@@ -75,7 +75,6 @@ function MergeListRecipients(Inputs, Outputs) {
     
     //bcMembers.SetViewMode("FINS Member Benefits View");
     bcMembers.ClearToQuery(); 
-    //bcMembers.SetSearchSpec("ID Information", "388081780");
     bcMembers.SetSearchSpec("Id", sRowId);
 
     bcMembers.ExecuteQuery(ForwardOnly);
@@ -152,12 +151,14 @@ function MergeListRecipients(Inputs, Outputs) {
       if (i != (getArrayLength(aInterface)-1)) {
         
           if (aInterface[i].type == "number") {
+            // If element type is number dont wrap with "" the value.
             sRequest = sRequest + aInterface[i].value + ',';
           } else {
             sRequest = sRequest + sLeftFiller + aInterface[i].value + sRightFiller;
           }
       }else {
           if (aInterface[i].type == "number") {
+            // If element type is number dont wrap with "" the value.
             sRequest = sRequest + aInterface[i].value ;
           } else {
           // On last element
@@ -168,13 +169,10 @@ function MergeListRecipients(Inputs, Outputs) {
 
     // Delete undesired ','
     if (sRequest.charAt(sRequest.length - 1) == ',') {
-      //Outputs.SetProperty("substring ", sRequest.substring(0, sRequest.length - 2))
       sRequest = sRequest.substring(0, sRequest.length - 1);
     }
 
     // Add JSON end filler 
-    //sRequest = sRequest + ']],' + '\"mapTemplateName\":null},' + '\"insertOnNoMatch\": true,' + '\"updateOnMatch\": \"REPLACE_ALL\"' + '}'; 
-
     sRequest = sRequest + ']],' +
     '\"mapTemplateName\":null},' +
     '\"mergeRule\":{' +
