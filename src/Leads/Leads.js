@@ -7,41 +7,6 @@ function Leads(Inputs, Outputs) {
     // Add Request and Response in the response.
     var sDebugMode: chars = Inputs.GetProperty("DebugMode");
 
-    // Field Parameters
-    var sCustomerID: chars = Inputs.GetProperty("CustomerID");
-    var sEmailAddress: chars = Inputs.GetProperty("EmailAddress");
-    var sNroLead: chars = Inputs.GetProperty("NroLead");
-    var sEstado: chars = Inputs.GetProperty("Estado");
-    var sOrganizacionEmisora: chars = Inputs.GetProperty("OrganizacionEmisora");
-    var sOrigenLead: chars = Inputs.GetProperty("OrigenLead");
-    var sSubOrigenLead: chars = Inputs.GetProperty("SubOrigenLead");
-    var sDetalleSubOrigen: chars = Inputs.GetProperty("DetalleSubOrigen");
-    var sTipoViaje: chars = Inputs.GetProperty("TipoViaje");
-    var sOrigenPais: chars = Inputs.GetProperty("OrigenPais");
-    var sDestino: chars = Inputs.GetProperty("Destino");
-    var sSalida: chars = Inputs.GetProperty("Salida");
-    var sRegreso: chars = Inputs.GetProperty("Regreso");
-    var sDias: chars = Inputs.GetProperty("Dias");
-    var sCantidadPasajeros: chars = Inputs.GetProperty("CantidadPasajeros");
-    var sEdadPasajeros: chars = Inputs.GetProperty("EdadPasajeros");
-    var sContrato: chars = Inputs.GetProperty("Contrato");
-    var sSponsorCorpoLead: chars = Inputs.GetProperty("SponsorCorpoLead");
-    var sClienteCorporativo: chars = Inputs.GetProperty("ClienteCorporativo");
-    var sProductosInteres: chars = Inputs.GetProperty("ProductosInteres");
-    var sFechaCotizacion: chars = Inputs.GetProperty("FechaCotizacion");
-    var sFechaConversion: chars = Inputs.GetProperty("FechaConversion");
-    var sNroVoucher: chars = Inputs.GetProperty("NroVoucher");
-    var sFechaBaja: chars = Inputs.GetProperty("FechaBaja");
-    var sMotivoBaja: chars = Inputs.GetProperty("MotivoBaja");
-    var sTempCotizacion: chars = Inputs.GetProperty("TempCotizacion");
-    var sParentesco: chars = Inputs.GetProperty("Parentesco");
-    var sPropietario: chars = Inputs.GetProperty("Propietario");
-    var sCanalVenta: chars = Inputs.GetProperty("CanalVenta");
-    var sApellidoContacto: chars = Inputs.GetProperty("ApellidoContacto");
-    var sNombreContacto: chars = Inputs.GetProperty("NombreContacto");
-    var sTelefonoContacto: chars = Inputs.GetProperty("TelefonoContacto");
-    var sFechaCreacionSiebel: chars = Inputs.GetProperty("FechaCreacionSiebel");
-
     // Responsys Folder name Input Parameter:
     var sFolderName: chars = Inputs.GetProperty("FolderName");
     if (sFolderName == null) {
@@ -88,7 +53,6 @@ function Leads(Inputs, Outputs) {
       "UA_RESPONSYS_LOV",
       "SCOPE"
     );
-
     switch (sScope) {
       case null:
         Outputs.SetProperty("Response", null);
@@ -120,6 +84,7 @@ function Leads(Inputs, Outputs) {
       "/suppData/" +
       sListName +
       "/members";
+
     // Build request Body
     var sRequest = '{"recordData": ' + '{"fieldNames":[';
     var sLeftFiller = '"';
@@ -158,7 +123,6 @@ function Leads(Inputs, Outputs) {
     aInterface[30] = new Element(sScope + "NOMBRE_CONTACTO", "NombreContacto", "", "string");
     aInterface[31] = new Element(sScope + "TELEFONO_CONTACTO", "TelefonoContacto", "", "string");
     aInterface[32] = new Element(sScope + "FECHA_CREACION_SIEBEL", "FechaCreacionSiebel", "", "string");
-
 
     var sRequest =
 
