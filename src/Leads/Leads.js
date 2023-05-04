@@ -123,8 +123,56 @@ function Leads(Inputs, Outputs) {
     aInterface[30] = new Element(sScope + "NOMBRE_CONTACTO", "NombreContacto", "", "string");
     aInterface[31] = new Element(sScope + "TELEFONO_CONTACTO", "TelefonoContacto", "", "string");
     aInterface[32] = new Element(sScope + "FECHA_CREACION_SIEBEL", "FechaCreacionSiebel", "", "string");
-
     
+    // Get Leads data
+    var boLeads = TheApplication().GetBusObject("Lead");
+    var bcLeads = boMembers.GetBusComp("Lead");
+    
+    bcLeads.ClearToQuery(); 
+    bcLeads.SetSearchSpec("Id", sRowId);
+    bcLeads.ExecuteQuery(ForwardOnly);
+
+    bcLeads.ActivateField("UA Voucher Num");
+    bcLeads.ActivateField("UA Tipo Viaje");
+    bcLeads.ActivateField("UA Destino Viaje");
+    bcLeads.ActivateField("UA Cant Pasajeros");
+    bcLeads.ActivateField("UA Origen Lead");
+    bcLeads.ActivateField("UA Dias Viajes");
+    bcLeads.ActivateField("UA Sub Origen Lead");
+    bcLeads.ActivateField("UA Origen Viaje");
+    bcLeads.ActivateField("UA Salida Viaje");
+    bcLeads.ActivateField("UA Cliente Corporativo");
+    bcLeads.ActivateField("Lead Status");
+    bcLeads.ActivateField("Calc Email Address");
+    bcLeads.ActivateField("UA Producto");
+    bcLeads.ActivateField("UA Organization Name");
+    bcLeads.ActivateField("Date Retired");
+    bcLeads.ActivateField("UA Sponsor");
+    bcLeads.ActivateField("UA Convenio");
+    bcLeads.ActivateField("Lead Num");
+    bcLeads.ActivateField("UA Detalle Sub Origen");
+    bcLeads.ActivateField("Date Converted");
+    bcLeads.ActivateField("UA Fecha Cotizacion");
+    bcLeads.ActivateField("Retire Reason Code");
+    bcLeads.ActivateField("UA TLMK Template Cotization");
+    bcLeads.ActivateField("UA Regreso Viaje");
+    bcLeads.ActivateField("UA Edad Pax 1");
+    bcLeads.ActivateField("UA Tipo de Organizacion");
+    bcLeads.ActivateField("UA Pais de la Organizacion");
+    bcLeads.ActivateField("UA Created");
+    bcLeads.ActivateField("UA Organizacion Id");
+    bcLeads.ActivateField("Owner");
+    bcLeads.ActivateField("UA Canal Venta");
+    bcLeads.ActivateField("Contact Id");
+    bcLeads.ActivateField("Contact Last Name");
+    bcLeads.ActivateField("Prospect Last Name");
+    bcLeads.ActivateField("Calc First Name");
+    bcLeads.ActivateField("UA Contact Document Type");
+    bcLeads.ActivateField("UA Tipo Doc Prospecto");
+    bcLeads.ActivateField("UA Numero Doc Prospecto");
+    bcLeads.ActivateField("UA Contact Document Number");
+
+
 
     Outputs.SetProperty("Request", sRequest);
 
