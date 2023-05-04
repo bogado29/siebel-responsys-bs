@@ -47,25 +47,77 @@ function Casos(Inputs, Outputs) {
     var sSubtipo:chars = Inputs.GetProperty("Subtipo");
     var sCustomerID:chars = Inputs.GetProperty("CustomerID");
     var sTelefonoContacto:chars = Inputs.GetProperty("TelefonoContacto");
-  
-    // Responsys Folder and List name:
-    var sFolderName:chars = Inputs.GetProperty("FolderName");
-    var sListName:chars = Inputs.GetProperty("ListName");
 
     // Add Request and Response in the response.
-    var sDebugMode:chars = Inputs.GetProperty("DebugMode");
+    var sDebugMode:chars = Inputs.GetProperty("DebugMode");    
 
-    var sHostname = TheApplication().InvokeMethod(
+    // Responsys Folder name Input Parameter:
+    var sFolderName: chars = Inputs.GetProperty("FolderName");
+    if (sFolderName == null) {
+      Outputs.SetProperty("Response", null);
+      Outputs.SetProperty("ErrorCode", 01 - 1);
+      Outputs.SetProperty("ErrorMessagge", "Error geting ListName Value");
+      TheApplication().RaiseErrorText("Error geting ListName Value");
+    }   
+    
+    // Responsys ListName name Input Parameter:
+    var sListName: chars = Inputs.GetProperty("ListName");
+    if (sListName == null) {
+      Outputs.SetProperty("Response", null);
+      Outputs.SetProperty("ErrorCode", 01);
+      Outputs.SetProperty("ErrorMessagge", "Error geting ListName Value");
+      TheApplication().RaiseErrorText("Error geting ListName Value");
+    }
+
+    // Siebel ROW_ID Input Parameter:
+    var sRowId: chars = Inputs.GetProperty("RowId");
+    if (sRowId == null) {
+      Outputs.SetProperty("Response", null);
+      Outputs.SetProperty("ErrorCode", 02);
+      Outputs.SetProperty("ErrorMessagge", "Error geting RowId Value");
+      TheApplication().RaiseErrorText("Error geting RowId Value");
+    }    
+
+    // Responsys Hostname name LOV Parameter:
+    var sHostname: chars = TheApplication().InvokeMethod(
       "LookupValue",
       "UA_RESPONSYS_LOV",
       "HOSTNAME"
     );
     if (sHostname == null) {
-        Outputs.SetProperty("Response", null);
-        Outputs.SetProperty("ErrorCode", 01);
-        Outputs.SetProperty("ErrorMessagge", "Error geting HOSTNAME LOV Value");
-        TheApplication().RaiseErrorText("Error geting HOSTNAME LOV Value");
+      Outputs.SetProperty("Response", null);
+      Outputs.SetProperty("ErrorCode", 03);
+      Outputs.SetProperty("ErrorMessagge", "Error geting HOSTNAME LOV Value");
+      TheApplication().RaiseErrorText("Error geting HOSTNAME LOV Value");
     }
+
+    // Responsys Scope Name LOV Parameter:
+    var sScope: chars = TheApplication().InvokeMethod(
+      "LookupValue",
+      "UA_RESPONSYS_LOV",
+      "SCOPE"
+    );
+    switch (sScope) {
+      case null:
+        Outputs.SetProperty("Response", null);
+        Outputs.SetProperty("ErrorCode", 05);
+        Outputs.SetProperty("ErrorMessagge", "Error geting SCOPE LOV Value");
+        TheApplication().RaiseErrorText("Error geting SCOPE LOV Value");
+        break;
+      case "PROD":
+        sScope = "";
+        break;
+      case "QA":
+        sScope = "QA_";
+        break;
+      default:
+        Outputs.SetProperty("Response", null);
+        Outputs.SetProperty("ErrorCode", 05);
+        Outputs.SetProperty("ErrorMessagge", "Error geting SCOPE LOV Value");
+        TheApplication().RaiseErrorText("Error geting SCOPE LOV Value");
+        break;
+    }
+   
 
     // Build POST Endpoint
     var sURL =
