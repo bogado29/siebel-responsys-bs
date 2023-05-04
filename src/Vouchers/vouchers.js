@@ -129,7 +129,42 @@ function Vouchers(Inputs, Outputs) {
     var sLeftFiller = '"';
     var sRightFiller = '",';
     var aInterface = new Array();
-
+    aInterface[0] = new Element(sScope +"NRO_VOUCHER", "NroVoucher", "", "string");
+    aInterface[1] = new Element(sScope +"PRINCIPAL", "Principal", "", "string");
+    aInterface[2] = new Element(sScope + "FECHA_VIGENCIA", "FechaVigencia", "", "string");
+    aInterface[3] = new Element(sScope + "FECHA_EMISION", "FechaEmision", "", "string");
+    aInterface[4] = new Element(sScope + "FECHA_FINAL","FechaFinal","","string");
+    aInterface[5] = new Element(sScope + "DIAS_VOUCHER", "DiasVoucher", "", "string");
+    aInterface[6] = new Element(sScope + "LINEA","Linea","","string");
+    aInterface[7] = new Element(sScope + "CANT_SOLICITANTES","CantSolicitantes","","string");
+    aInterface[8] = new Element(sScope + "DESTINO","Destino","","string");
+    aInterface[9] = new Element(sScope + "TIPO_VENTA", "TipoVenta", "", "string");
+    aInterface[10] = new Element(sScope + "ESTADO", "Estado", "", "string");
+    aInterface[11] = new Element(sScope + "INDICADOR_CLIENTE", "IndicadorCliente", "", "string");
+    aInterface[12] = new Element(sScope + "MOTIVO_BAJA_VOUCHER", "MotivoBajaVoucher", "", "string");
+    aInterface[13] = new Element(sScope + "ORGANIZACION_EMISORA", "OrganizacionEmisora", "", "string");
+    aInterface[14] = new Element(sScope + "CONVENIO", "Convenio", "", "string");
+    aInterface[15] = new Element(sScope + "SPONSOR_CORPO_VOUCHER", "SponsorCorpoVoucher", "", "string");
+    aInterface[16] = new Element(sScope + "CONTRATO", "Contrato", "", "string");
+    aInterface[17] = new Element(sScope + "REFERIDO", "Referido", "", "string");
+    aInterface[18] = new Element(sScope + "NRO_LEAD", "NroLead", "", "string");
+    aInterface[19] = new Element(sScope + "CANAL_DE_VENTA", "CanalDeVenta", "", "string");
+    aInterface[20] = new Element(sScope + "EDAD", "Edad", "", "string");
+    aInterface[21] = new Element(sScope + "VENDEDOR", "Vendedor", "", "string");
+    aInterface[22] = new Element(sScope + "TIPO_CUENTA", "TipoCuenta", "", "string");
+    aInterface[23] = new Element(sScope + "APELLIDO_PASAJERO", "ApellidoPasajero", "", "string");
+    aInterface[24] = new Element(sScope + "NOMBRE_PASAJERO", "NombrePasajero", "", "string");
+    aInterface[25] = new Element(sScope + "TIPO_DOCUMENTO", "TipoDocumento", "", "string");
+    aInterface[26] = new Element(sScope + "NRO_DOCUMENTO", "NroDocumento", "", "string");
+    aInterface[27] = new Element("EMAIL_ADDRESS_", "EmailAddress", "", "string");
+    aInterface[28] = new Element(sScope + "FECHA_CREACION_SIEBEL", "FechaCreacionSiebel", "", "string");
+    aInterface[29] = new Element("CUSTOMER_ID_", "CustomerID", "", "string");
+    aInterface[30] = new Element(sScope + "TELEFONO_CONTACTO", "TelefonoContacto", "", "string");
+    aInterface[31] = new Element(sScope + "MOTIVO", "Motivo", "", "string");
+    aInterface[32] = new Element(sScope + "PRODUCTO_DENOMINACION", "ProductoDenominacion", "", "string");
+    aInterface[33] = new Element(sScope + "PRODUCTO_NOMBRE", "ProductoNombre", "", "string");
+    
+    
     // Build request Body
     var sRequest =
       '{"recordData": ' +
