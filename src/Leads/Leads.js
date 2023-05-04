@@ -127,7 +127,6 @@ function Leads(Inputs, Outputs) {
     // Get Leads data
     var boLeads = TheApplication().GetBusObject("Lead");
     var bcLeads = boMembers.GetBusComp("Lead");
-    
     bcLeads.ClearToQuery(); 
     bcLeads.SetSearchSpec("Id", sRowId);
     bcLeads.ExecuteQuery(ForwardOnly);
@@ -171,10 +170,109 @@ function Leads(Inputs, Outputs) {
     bcLeads.ActivateField("UA Tipo Doc Prospecto");
     bcLeads.ActivateField("UA Numero Doc Prospecto");
     bcLeads.ActivateField("UA Contact Document Number");
+    bcLeads.ActivateField("UA Calc Home Phone");
+    bcLeads.ActivateField("Calc Mobile Phone");
 
+    // Get Lead Contact data
+    var bcLeadContact = boMembers.GetBusComp("UA Lead Contact BC");    
+    bcLeadContact.ClearToQuery(); 
+    bcLeadContact.SetSearchSpec("Id", bcLeads.GetFieldValue("Contact Id"));
+    bcLeadContact.ExecuteQuery(ForwardOnly);
 
+    bcLeadContact.ActivateField("UA Parentesco");
 
-    Outputs.SetProperty("Request", sRequest);
+    aInterface[0].value = bcLeads.GetFieldValue("UA Contact Document Type") + bcLeads.GetFieldValue("UA Contact Document Number");
+    aInterface[1].value = bcLeads.GetFieldValue("Calc Email Address");
+    aInterface[2].value = bcLeads.GetFieldValue("Lead Num");
+    aInterface[3].value = bcLeads.GetFieldValue("Lead Status");
+    aInterface[4].value = bcLeads.GetFieldValue("UA Organization Name");
+    aInterface[5].value = bcLeads.GetFieldValue("UA Origen Lead");
+    aInterface[6].value = bcLeads.GetFieldValue("UA Sub Origen Lead");
+    aInterface[7].value = bcLeads.GetFieldValue("UA Detalle Sub Origen");
+    aInterface[8].value = bcLeads.GetFieldValue("UA Tipo Viaje");
+    aInterface[9].value = bcLeads.GetFieldValue("UA Origen Viaje");
+    aInterface[10].value = bcLeads.GetFieldValue("UA Destino Viaje");
+    aInterface[11].value = bcLeads.GetFieldValue("UA Salida Viaje");
+    aInterface[12].value = bcLeads.GetFieldValue("UA Regreso Viaje");
+    aInterface[13].value = bcLeads.GetFieldValue("UA Dias Viajes");
+    aInterface[14].value = bcLeads.GetFieldValue("UA Cant Pasajeros");
+    aInterface[15].value = bcLeads.GetFieldValue("UA Edad Pax 1");
+    aInterface[16].value = bcLeads.GetFieldValue("UA Convenio");
+    aInterface[17].value = bcLeads.GetFieldValue("UA Sponsor");
+    aInterface[18].value = bcLeads.GetFieldValue("UA Cliente Corporativo");
+    aInterface[19].value = bcLeads.GetFieldValue("UA Producto");
+    aInterface[20].value = bcLeads.GetFieldValue("UA Fecha Cotizacion");
+    aInterface[21].value = bcLeads.GetFieldValue("Date Converted");
+    aInterface[22].value = bcLeads.GetFieldValue("UA Voucher Num");
+    aInterface[23].value = bcLeads.GetFieldValue("Date Retired");
+    aInterface[24].value = bcLeads.GetFieldValue("Retire Reason Code");
+    aInterface[25].value = bcLeads.GetFieldValue("UA TLMK Template Cotization");
+    aInterface[26].value = bcLeadContact.GetFieldValue("UA Parentesco");
+    aInterface[27].value = bcLeads.GetFieldValue("Owner");
+    aInterface[28].value = bcLeads.GetFieldValue("UA Canal Venta");
+    aInterface[29].value = bcLeads.GetFieldValue("Contact Last Name");
+    aInterface[30].value = bcLeads.GetFieldValue("Calc First Name");
+    aInterface[31].value = bcLeads.GetFieldValue("UA Calc Home Phone");
+    aInterface[32].value = bcLeads.GetFieldValue("UA Created");
+
+    // Generate Json responsys columns
+    for ( var i = 0; i < getArrayLength(aInterface); i++ ) {
+      if (aInterface[i].value == "" ) {
+        continue;
+      }  
+      
+      if (i != (getArrayLength(aInterface)-1)) {
+          sRequest = sRequest + sLeftFiller + aInterface[i].jsonElement + sRightFiller;
+        }else {
+          // On last element
+          sRequest = sRequest + sLeftFiller + aInterface[i].jsonElement + '\"';
+        }
+    }
+
+    // Delete undesired ','
+    if (sRequest.charAt(sRequest.length - 1) == ',') {
+      sRequest = sRequest.substring(0, sRequest.length - 1);
+    }
+
+    // Add JSON middle filler 
+    sRequest = sRequest + '],' + '\"records\":[['; 
+    
+    // Generate Json responsys data
+    for ( i = 0; i < getArrayLength(aInterface); i++ ) {
+            
+      if (aInterface[i].value == "" ) {
+        continue;
+      }  
+
+      if (i != (getArrayLength(aInterface)-1)) {
+        
+          if (aInterface[i].type == "number") {
+            // If element type is number dont wrap with "" the value.
+            sRequest = sRequest + aInterface[i].value + ',';
+          } else {
+            sRequest = sRequest + sLeftFiller + aInterface[i].value + sRightFiller;
+          }
+      }else {
+          if (aInterface[i].type == "number") {
+            // If element type is number dont wrap with "" the value.
+            sRequest = sRequest + aInterface[i].value ;
+          } else {
+          // On last element
+          sRequest = sRequest + sLeftFiller + aInterface[i].value + '\"';
+          }
+      }
+    }
+
+    // Delete undesired ','
+    if (sRequest.charAt(sRequest.length - 1) == ',') {
+      sRequest = sRequest.substring(0, sRequest.length - 1);
+    }
+
+    // Add JSON end filler
+    sRequest = sRequest + ']],' +
+    '\"mapTemplateName\":null},' +
+    '\"insertOnNoMatch\":true,' +
+    '\"updateOnMatch\":\"REPLACE_ALL\"}';
 
     // Get authorization token
     var boListOfVal = TheApplication().GetBusObject("List Of Values");
@@ -223,9 +321,17 @@ function Leads(Inputs, Outputs) {
     for (var i = 0; i < cmdArray.length; i++)
       msgText = msgText + cmdArray[i] + "\n";
 
-    Outputs.SetProperty("Response", msgText);
+    // Returns Request and Response only if Debug mode in enable.    
+    if (sDebugMode == "Y") {
+      Outputs.SetProperty("Request", sRequest);
+      Outputs.SetProperty("Response", smsgText);        
+    }
+      
     Outputs.SetProperty("ErrorCode", 00);
-    Outputs.SetProperty("ErrorMessagge", "Succes");
+    Outputs.SetProperty("ErrorMessagge", "Success");
+
+    // TODO: Update Flag
+
   } catch (e) {
     Outputs.SetProperty("Response", e.toString());
     Outputs.SetProperty("ErrorCode", 99);
@@ -234,45 +340,7 @@ function Leads(Inputs, Outputs) {
       "Business Service Outputs: " + Outputs + " Errors " + e.toString()
     );
   } finally {
-    sCustomerID = "";
-    sEmailAddress = "";
-    sNroLead = "";
-    sEstado = "";
-    sOrganizacionEmisora = "";
-    sOrigenLead = "";
-    sSubOrigenLead = "";
-    sDetalleSubOrigen = "";
-    sTipoViaje = "";
-    sDestino = "";
-    sSalida = "";
-    sRegreso = "";
-    sDias = "";
-    sCantidadPasajeros = "";
-    sEdadPasajeros = "";
-    sContrato = "";
-    sSponsorCorpoLead = "";
-    sClienteCorporativo = "";
-    sProductosInteres = "";
-    sFechaCotizacion = "";
-    sFechaConversion = "";
-    sNroVoucher = "";
-    sFechaBaja = "";
-    sMotivoBaja = "";
-    sTempCotizacion = "";
-    sParentesco = "";
-    sPropietario = "";
-    sCanalVenta = "";
-    sApellidoContacto = "";
-    sNombreContacto = "";
-    sTelefonoContacto = "";
-    sFechaCreacionSiebel = "";
-
-    sFolderName = "";
-    sListName = "";
-    sURL = "";
-    sRequest = "";
-    sAuthToken = "";
-    msgText = "";
+    
   }
 }
 

@@ -187,9 +187,8 @@ function MergeListRecipients(Inputs, Outputs) {
         '\"rejectRecordIfChannelEmpty\":null,' +
         '\"defaultPermissionStatus\":\"OPTIN\"}}';
 
-    Outputs.SetProperty("Request", sRequest);
       // Get authorization token
-      var boListOfVal = TheApplication().GetBusObject("List Of Values");
+        var boListOfVal = TheApplication().GetBusObject("List Of Values");
         var bcListOfVal = boListOfVal.GetBusComp("List Of Values");
         bcListOfVal.ClearToQuery();
         bcListOfVal.ActivateField("Description");
@@ -253,6 +252,7 @@ function MergeListRecipients(Inputs, Outputs) {
       "Business Service Outputs: " + Outputs + " Errors " + e.toString()
     );
   } finally {
+    
   }
 }
 

@@ -74,45 +74,6 @@ function Vouchers(Inputs, Outputs) {
         break;
     }    
 
-    // Field Parameters
-    var sNroVoucher: chars = Inputs.GetProperty("NroVoucher");
-    var sPrincipal: chars = Inputs.GetProperty("Principal");
-    var sFechaVigencia: chars = Inputs.GetProperty("FechaVigencia");
-    var sFechaEmision: chars = Inputs.GetProperty("FechaEmision");
-    var sFechaFinal: chars = Inputs.GetProperty("FechaFinal");
-    var sDiasVoucher: chars = Inputs.GetProperty("DiasVoucher");
-    var sLinea: chars = Inputs.GetProperty("Linea");
-    var sCantSolicitantes: chars = Inputs.GetProperty("CantSolicitantes");
-    var sDestino: chars = Inputs.GetProperty("Destino");
-    var sTipoVenta: chars = Inputs.GetProperty("TipoVenta");
-    var sEstado: chars = Inputs.GetProperty("TipoVenta");
-    var sIndicadorCliente: chars = Inputs.GetProperty("IndicadorCliente");
-    var sMotivoBajaVoucher: chars = Inputs.GetProperty("MotivoBajaVoucher");
-    var sOrganizacionEmisora: chars = Inputs.GetProperty("OrganizacionEmisora");
-    var sConvenio: chars = Inputs.GetProperty("Convenio");
-    var sSponsorCorpoVoucher: chars = Inputs.GetProperty("SponsorCorpoVoucher");
-    var sContrato: chars = Inputs.GetProperty("Contrato");
-    var sReferido: chars = Inputs.GetProperty("Referido");
-    var sNroLead: chars = Inputs.GetProperty("NroLead");
-    var sCanalDeVenta: chars = Inputs.GetProperty("CanalDeVenta");
-    var sEdad: chars = Inputs.GetProperty("Edad");
-    var sVendedor: chars = Inputs.GetProperty("Vendedor");
-    var sTipoCuenta: chars = Inputs.GetProperty("TipoCuenta");
-    var sApellidoPasajero: chars = Inputs.GetProperty("ApellidoPasajero");
-    var sNombrePasajero: chars = Inputs.GetProperty("NombrePasajero");
-    var sTipoDocumento: chars = Inputs.GetProperty("TipoDocumento");
-    var sNroDocumento: chars = Inputs.GetProperty("NroDocumento");
-    var sEmailAddress: chars = Inputs.GetProperty("EmailAddress");
-    var sFechaCreacionSiebel: chars = Inputs.GetProperty("FechaCreacionSiebel");
-    var sCustomerID: chars = Inputs.GetProperty("CustomerID");
-    var sTelefonoContacto: chars = Inputs.GetProperty("TelefonoContacto");
-    var sMotivo: chars = Inputs.GetProperty("Motivo");
-    var sProductoDenominacion: chars = Inputs.GetProperty(
-      "ProductoDenominacion"
-    );
-    var sProductoNombre: chars = Inputs.GetProperty("ProductoNombre");
-
-
     // Build POST Endpoint
     var sURL =
       "https://" +
