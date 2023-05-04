@@ -133,9 +133,55 @@ function Casos(Inputs, Outputs) {
 
 
     // Build request Body
-    var sRequest = '{\"recordData\": ' +
-            '{\"fieldNames\":' +
-            '[' +
+    // Build request Body
+    var sRequest = '{"recordData": ' + '{"fieldNames":[';
+    var sLeftFiller = '"';
+    var sRightFiller = '",';
+    var aInterface = new Array();
+    aInterface[0] = new Element(sScope + "NRO_CASO", "NroCaso", "", "string");
+    aInterface[1] = new Element(sScope + "TIPO_CASO", "TipoCaso", "", "string");
+    aInterface[2] = new Element(sScope + "TIPO_DOCUMENTO", "TipoDocumento", "", "string");
+    aInterface[3] = new Element(sScope + "NRO_DOCUMENTO", "NroDocumento", "", "string");
+    aInterface[4] = new Element(sScope + "ORGANIZACION", "Organizacion", "", "string");
+    aInterface[5] = new Element(sScope + "PAIS_ORIGEN", "PaisOrigen", "", "string");
+    aInterface[6] = new Element(sScope + "FECHA_INICIO_CASO", "FechaInicioCaso", "", "string");
+    aInterface[7] = new Element(sScope + "FECHA_FIN_CASO", "FechaFinCaso", "", "string");
+    aInterface[8] = new Element(sScope + "ESTADO_CASO", "EstadoCaso", "", "string");
+    aInterface[9] = new Element(sScope + "TIPO_VENTA", "TipoVenta", "", "string");
+    aInterface[10] = new Element(sScope + "LINEA_NEGOCIO", "LineaNegocio", "", "string");
+    aInterface[11] = new Element(sScope + "FECHA_CREACION", "FechaCreacion", "", "string");
+    aInterface[12] = new Element(sScope + "FECHA_CIERRE", "FechaCierre", "", "string");
+    aInterface[13] = new Element(sScope + "TIPO_ASISTENCIA", "TipoAsistencia", "", "string");
+    aInterface[14] = new Element(sScope + "PAIS_CASO", "PaisCaso", "", "string");
+    aInterface[15] = new Element(sScope + "CIUDAD_CASO", "CiudadCaso", "", "string");
+    aInterface[16] = new Element(sScope + "FECHA_SALIDA", "FechaSalida", "", "string");
+    aInterface[17] = new Element(sScope + "TELF_RESIDENCIA", "TelfResidencia", "", "string");
+    aInterface[18] = new Element(sScope + "NOMBRE_PASAJERO", "NombrePasajero", "", "string");
+    aInterface[19] = new Element(sScope + "APELLIDO_PASAJERO", "ApellidoPasajero", "", "string");
+    aInterface[20] = new Element(sScope + "NO_ENVIAR_EMAIL", "NoEnviarMail", "", "string");
+    aInterface[21] = new Element(sScope + "PAIS_BENEFICIARIO", "PaisBeneficiario", "", "string");
+    aInterface[22] = new Element(sScope + "TIPO_CUENTA", "TipoCuenta", "", "string");
+    aInterface[23] = new Element(sScope + "TIPO_REGISTRO", "TipoRegistro", "", "string");
+    aInterface[24] = new Element(sScope + "ID_ORGANIZACION", "IdOrganizacion", "", "string");
+    aInterface[25] = new Element(sScope + "USUARIO_CREADOR", "UsuarioCreador", "", "string");
+    aInterface[26] = new Element(sScope + "N_VOUCHER_COBERTURA", "NVoucherCobertura", "", "string");
+    aInterface[27] = new Element(sScope + "ASIGNADO", "Asignado", "", "string");
+    aInterface[28] = new Element(sScope + "APLICA_FRANQUICIA", "AplicaFranquicia", "", "string");
+    aInterface[29] = new Element("EMAIL_ADDRESS_", "EmailAddress", "", "string");
+    aInterface[30] = new Element(sScope + "FECHA_CREACION_SIEBEL", "FechaCreacionSiebel", "", "string");
+    aInterface[31] = new Element(sScope + "TIPO_ASISTENCIA_ORIGINAL", "TipoAsistenciaOriginal", "", "string");
+    aInterface[32] = new Element(sScope + "DERIVACION_ORIGINAL", "DerivacionOriginal", "", "string");
+    aInterface[33] = new Element(sScope + "SINTOMA_1", "Sintoma1", "", "string");
+    aInterface[34] = new Element(sScope + "SINTOMA_2", "Sintoma2", "", "string");
+    aInterface[35] = new Element(sScope + "SINTOMA_3", "Sintoma3", "", "string");
+    aInterface[36] = new Element(sScope + "URGENCIA", "Urgencia", "", "string");
+    aInterface[37] = new Element(sScope + "DERIVACION", "Derivacion", "", "string");
+    aInterface[38] = new Element(sScope + "SUBESTADO", "SubEstado", "", "string");
+    aInterface[39] = new Element(sScope + "SUBTIPO", "SubTipo", "", "string");
+    aInterface[40] = new Element("CUSTOMER_ID_", "CustomerID", "", "string");
+    aInterface[41] = new Element(sScope + "TELEFONO_CONTACTO", "TelefonoContacto", "", "string");
+
+
               '\"QA_NRO_CASO\",' +
               '\"QA_TIPO_CASO\",' +
               '\"QA_TIPO_DOCUMENTO\",' +
