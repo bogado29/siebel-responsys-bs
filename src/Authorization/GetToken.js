@@ -122,6 +122,10 @@ function GetToken(Inputs, Outputs) {
       if (bcListOfVal.FirstRecord()) {
         bcListOfVal.SetFieldValue("Description", cmdArray[3]);
         bcListOfVal.WriteRecord();
+      }else {
+        Outputs.SetProperty("ErrorCode", 06);
+        Outputs.SetProperty("ErrorMessagge", "Error saving token value into database");
+        TheApplication().RaiseErrorText("Error saving token value into database");
       }
       Outputs.SetProperty("authToken", cmdArray[3]);
       Outputs.SetProperty("ErrorCode", 00);

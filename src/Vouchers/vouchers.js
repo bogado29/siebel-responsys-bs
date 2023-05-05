@@ -124,158 +124,184 @@ function Vouchers(Inputs, Outputs) {
     aInterface[31] = new Element(sScope + "MOTIVO", "Motivo", "", "string");
     aInterface[32] = new Element(sScope + "PRODUCTO_DENOMINACION", "ProductoDenominacion", "", "string");
     aInterface[33] = new Element(sScope + "PRODUCTO_NOMBRE", "ProductoNombre", "", "string");
+        
+    // Get Vouchers data
+    var boVouchers = TheApplication().GetBusObject("UA FINS Health Individual Policy");
+    var bcVouchers = boVouchers.GetBusComp("FINS Health Individual Policy");
+    bcVouchers.ClearToQuery(); 
+    bcVouchers.SetSearchSpec("Id", sRowId);
+    bcVouchers.ExecuteQuery(ForwardOnly);
     
+    // Validate if get a record
+    if (!bcVouchers.FirstRecord()) {
+      Outputs.SetProperty("Response", null);
+      Outputs.SetProperty("ErrorCode", 04);
+      Outputs.SetProperty("ErrorMessagge", "Failed to retrieve records on ROW_ID");
+      TheApplication().RaiseErrorText("Failed to retrieve records on ROW_ID");
+    }
     
-    // Build request Body
-    var sRequest =
-      '{"recordData": ' +
-      '{"fieldNames":' +
-      "[" +
-      '"QA_NRO_VOUCHER",' +
-      '"QA_PRINCIPAL",' +
-      '"QA_FECHA_VIGENCIA",' +
-      '"QA_FECHA_EMISION",' +
-      '"QA_FECHA_FINAL",' +
-      '"QA_DIAS_VOUCHER",' +
-      '"QA_LINEA",' +
-      '"QA_CANT_SOLICITANTES",' +
-      '"QA_DESTINO",' +
-      '"QA_TIPO_VENTA",' +
-      '"QA_ESTADO",' +
-      '"QA_INDICADOR_CLIENTE",' +
-      '"QA_MOTIVO_BAJA_VOUCHER",' +
-      '"QA_ORGANIZACION_EMISORA",' +
-      '"QA_CONVENIO",' +
-      '"QA_SPONSOR_CORPO_VOUCHER",' +
-      '"QA_CONTRATO",' +
-      '"QA_REFERIDO",' +
-      '"QA_NRO_LEAD",' +
-      '"QA_CANAL_DE_VENTA",' +
-      '"QA_EDAD",' +
-      '"QA_VENDEDOR",' +
-      '"QA_TIPO_CUENTA",' +
-      '"QA_APELLIDO_PASAJERO",' +
-      '"QA_NOMBRE_PASAJERO",' +
-      '"QA_TIPO_DOCUMENTO",' +
-      '"QA_NRO_DOCUMENTO",' +
-      '"EMAIL_ADDRESS_",' +
-      '"QA_FECHA_CREACION_SIEBEL",' +
-      '"CUSTOMER_ID",' +
-      '"QA_TELEFONO_CONTACTO",' +
-      '"QA_MOTIVO",' +
-      '"QA_PRODUCTO_DENOMINACION",' +
-      '"QA_PRODUCTO_NOMBRE"' +
-      "]," +
-      '"records":[' +
-      "[" +
-      '"' +
-      sNroVoucher +
-      '",' +
-      '"' +
-      sPrincipal +
-      '",' +
-      '"' +
-      sFechaVigencia +
-      '",' +
-      '"' +
-      sFechaEmision +
-      '",' +
-      '"' +
-      sFechaFinal +
-      '",' +
-      '"' +
-      sDiasVoucher +
-      '",' +
-      '"' +
-      sLinea +
-      '",' +
-      '"' +
-      sCantSolicitantes +
-      '",' +
-      '"' +
-      sDestino +
-      '",' +
-      '"' +
-      sTipoVenta +
-      '",' +
-      '"' +
-      sEstado +
-      '",' +
-      '"' +
-      sIndicadorCliente +
-      '",' +
-      '"' +
-      sMotivoBajaVoucher +
-      '",' +
-      '"' +
-      sOrganizacionEmisora +
-      '",' +
-      '"' +
-      sConvenio +
-      '",' +
-      '"' +
-      sSponsorCorpoVoucher +
-      '",' +
-      '"' +
-      sContrato +
-      '",' +
-      '"' +
-      sReferido +
-      '",' +
-      '"' +
-      sNroLead +
-      '",' +
-      '"' +
-      sCanalDeVenta +
-      '",' +
-      '"' +
-      sEdad +
-      '",' +
-      '"' +
-      sVendedor +
-      '",' +
-      '"' +
-      sTipoCuenta +
-      '",' +
-      '"' +
-      sApellidoPasajero +
-      '",' +
-      '"' +
-      sNombrePasajero +
-      '",' +
-      '"' +
-      sTipoDocumento +
-      '",' +
-      '"' +
-      sNroDocumento +
-      '",' +
-      '"' +
-      sEmailAddress +
-      '",' +
-      '"' +
-      sFechaCreacionSiebel +
-      '",' +
-      '"' +
-      sCustomerID +
-      '",' +
-      '"' +
-      sTelefonoContacto +
-      '",' +
-      '"' +
-      sMotivo +
-      '",' +
-      '"' +
-      sProductoDenominacion +
-      '",' +
-      '"' +
-      sProductoNombre +
-      '"]' +
-      "]," +
-      '"mapTemplateName":null},' +
-      '"insertOnNoMatch": true,' +
-      '"updateOnMatch": "REPLACE_ALL"' +
-      "}";
+    bcVouchers.ActivateField("Policy Number");
+    bcVouchers.ActivateField("UA Indicador Cliente");
+    bcVouchers.ActivateField("Primary Organization Id");
+    bcVouchers.ActivateField("Status");
+    bcVouchers.ActivateField("UA Motivo baja");
+    bcVouchers.ActivateField("Organization");
+    bcVouchers.ActivateField("UA Convenios");
+    bcVouchers.ActivateField("UA Sponsor Venta");
+    bcVouchers.ActivateField("UA Contrato Name");
+    bcVouchers.ActivateField("UA Lead Num");
+    bcVouchers.ActivateField("UA Referido");
+    bcVouchers.ActivateField("UA Tipo Venta Voucher");
+    bcVouchers.ActivateField("UA Tipo Org");
+    bcVouchers.ActivateField("UA Prim Org Country");
+    bcVouchers.ActivateField("UA Created");
+    bcVouchers.ActivateField("Total Premium Exchange Date");
+    bcVouchers.ActivateField("UA Canal Venta Org");
+    bcVouchers.ActivateField("Rate State");
+    bcVouchers.ActivateField("Prim Con  Id");
+    bcVouchers.ActivateField("Owner");
+    bcVouchers.ActivateField("UA Tipo Cuenta");
+    bcVouchers.ActivateField("UA Default Telefono contacto");
+    bcVouchers.ActivateField("Sub Status");
+    bcVouchers.ActivateField("UA Cant Solicitantes Display");
+    bcVouchers.ActivateField("Line Of Business");
+    bcVouchers.ActivateField("UA Dias");
+    bcVouchers.ActivateField("End Date");
+    bcVouchers.ActivateField("Effective Date");
+    bcVouchers.ActivateField("Full Name");    
+    
+    // Get Vouchers Product Data
+    var bcProduct = boVouchers.GetBusComp("FINS Enrolled Product");
+    bcProduct.ClearToQuery(); 
+    bcProduct.SetSearchSpec("Asset Id", sRowId);
+    bcProduct.ExecuteQuery(ForwardOnly);
+    
+    // Validate if get a record
+    if (!bcProduct.FirstRecord()) {
+      Outputs.SetProperty("Response", null);
+      Outputs.SetProperty("ErrorCode", 04);
+      Outputs.SetProperty("ErrorMessagge", "Failed to retrieve records on ROW_ID - bcProduct");
+      TheApplication().RaiseErrorText("Failed to retrieve records on ROW_ID - bcProduct");
+    }else {
+      bcProduct.ActivateField("UA Denominación");
+      bcProduct.ActivateField("Product Name");  
+    }
 
+    // Get Vouchers Contact Data
+    var bcPolicyContact = boVouchers.GetBusComp("FINS Health Individual Policy Contacts");
+    bcPolicyContact.ClearToQuery(); 
+    bcPolicyContact.SetSearchSpec("Id", bcVouchers.GetFieldValue("Prim Con  Id"));
+    bcPolicyContact.ExecuteQuery(ForwardOnly);
+    
+    // Validate if get a record
+    if (!bcPolicyContact.FirstRecord()) {
+      Outputs.SetProperty("Response", null);
+      Outputs.SetProperty("ErrorCode", 04);
+      Outputs.SetProperty("ErrorMessagge", "Failed to retrieve records on ROW_ID - bcPolicyContact");
+      TheApplication().RaiseErrorText("Failed to retrieve records on ROW_ID - bcPolicyContact");
+    }else {
+      bcPolicyContact.ActivateField("UA Tipo documento");
+      bcPolicyContact.ActivateField("Last Name");
+      bcPolicyContact.ActivateField("Email Address");
+      bcPolicyContact.ActivateField("UA Numero documento");
+      bcPolicyContact.ActivateField("Age");
+      bcPolicyContact.ActivateField("First Name");
+    }
+
+    aInterface[0].value = bcVouchers.GetFieldValue("Policy Number");
+    aInterface[1].value = bcVouchers.GetFieldValue("Full Name");
+    aInterface[2].value = bcVouchers.GetFieldValue("Effective Date");
+    aInterface[3].value = bcVouchers.GetFieldValue("Total Premium Exchange Date");
+    aInterface[4].value = bcVouchers.GetFieldValue("End Date");
+    aInterface[5].value = bcVouchers.GetFieldValue("UA Dias");
+    aInterface[6].value = bcVouchers.GetFieldValue("Line Of Business");
+    aInterface[7].value = bcVouchers.GetFieldValue("UA Cant Solicitantes Display");
+    aInterface[8].value = bcVouchers.GetFieldValue("Rate State");
+    aInterface[9].value = bcVouchers.GetFieldValue("UA Tipo Venta Voucher");
+    aInterface[10].value = bcVouchers.GetFieldValue("Status");
+    aInterface[11].value = bcVouchers.GetFieldValue("UA Indicador Cliente");
+    aInterface[12].value = bcVouchers.GetFieldValue("UA Motivo baja");
+    aInterface[13].value = bcVouchers.GetFieldValue("Organization");
+    aInterface[14].value = bcVouchers.GetFieldValue("UA Convenios");
+    aInterface[15].value = bcVouchers.GetFieldValue("UA Sponsor Venta");
+    aInterface[16].value = bcVouchers.GetFieldValue("UA Contrato Name");
+    aInterface[17].value = bcVouchers.GetFieldValue("UA Referido");
+    aInterface[18].value = bcVouchers.GetFieldValue("UA Lead Num");
+    aInterface[19].value = bcVouchers.GetFieldValue("UA Canal Venta Org");
+    aInterface[20].value = bcPolicyContact.GetFieldValue("Age");
+    aInterface[21].value = bcVouchers.GetFieldValue("Owner");
+    aInterface[22].value = bcVouchers.GetFieldValue("UA Tipo Cuenta");
+    aInterface[23].value = bcPolicyContact.GetFieldValue("Last Name");
+    aInterface[24].value = bcPolicyContact.GetFieldValue("First Name");
+    aInterface[25].value = bcPolicyContact.GetFieldValue("UA Tipo documento");
+    aInterface[26].value = bcPolicyContact.GetFieldValue("UA Numero documento");
+    aInterface[27].value = bcPolicyContact.GetFieldValue("Email Addres");
+    aInterface[28].value = bcVouchers.GetFieldValue("UA Created");
+    aInterface[29].value = bcPolicyContact.GetFieldValue("UA Tipo documento") + bcPolicyContact.GetFieldValue("UA Numero documento");
+    aInterface[30].value = bcVouchers.GetFieldValue("UA Default Telefono contacto");
+    aInterface[31].value = bcVouchers.GetFieldValue("Sub Status");
+    aInterface[32].value = bcProduct.GetFieldValue("UA Denominación");
+    aInterface[33].value = bcProduct.GetFieldValue("Product Name");
+
+    // Generate Json responsys columns
+    for ( var i = 0; i < getArrayLength(aInterface); i++ ) {
+      if (aInterface[i].value == "" ) {
+        continue;
+      }  
+      
+      if (i != (getArrayLength(aInterface)-1)) {
+          sRequest = sRequest + sLeftFiller + aInterface[i].jsonElement + sRightFiller;
+        }else {
+          // On last element
+          sRequest = sRequest + sLeftFiller + aInterface[i].jsonElement + '\"';
+        }
+    }
+
+    // Delete undesired ','
+    if (sRequest.charAt(sRequest.length - 1) == ',') {
+      sRequest = sRequest.substring(0, sRequest.length - 1);
+    }
+
+    // Add JSON middle filler 
+    sRequest = sRequest + '],' + '\"records\":[['; 
+    
+    // Generate Json responsys data
+    for ( i = 0; i < getArrayLength(aInterface); i++ ) {
+            
+      if (aInterface[i].value == "" ) {
+        continue;
+      }  
+
+      if (i != (getArrayLength(aInterface)-1)) {
+        
+          if (aInterface[i].type == "number") {
+            // If element type is number dont wrap with "" the value.
+            sRequest = sRequest + aInterface[i].value + ',';
+          } else {
+            sRequest = sRequest + sLeftFiller + aInterface[i].value + sRightFiller;
+          }
+      }else {
+          if (aInterface[i].type == "number") {
+            // If element type is number dont wrap with "" the value.
+            sRequest = sRequest + aInterface[i].value ;
+          } else {
+          // On last element
+          sRequest = sRequest + sLeftFiller + aInterface[i].value + '\"';
+          }
+      }
+    }
+
+    // Delete undesired ','
+    if (sRequest.charAt(sRequest.length - 1) == ',') {
+      sRequest = sRequest.substring(0, sRequest.length - 1);
+    }
+
+    // Add JSON end filler
+    sRequest = sRequest + ']],' +
+    '\"mapTemplateName\":null},' +
+    '\"insertOnNoMatch\":true,' +
+    '\"updateOnMatch\":\"REPLACE_ALL\"}';
+      
     Outputs.SetProperty("Request", sRequest);
 
     // Get authorization token
@@ -330,6 +356,9 @@ function Vouchers(Inputs, Outputs) {
       Outputs.SetProperty("Request", sRequest);
       Outputs.SetProperty("Response", smsgText);
     }
+
+    // Update Flag / Status
+    UpdateStatus("UA FINS Health Individual Policy","FINS Health Individual Policy",sRowId,"UA Estado Responsys","OK - Updated");
 
     Outputs.SetProperty("ErrorCode", 00);
     Outputs.SetProperty("ErrorMessagge", "Success");

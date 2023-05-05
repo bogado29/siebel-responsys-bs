@@ -239,10 +239,12 @@ function MergeListRecipients(Inputs, Outputs) {
         Outputs.SetProperty("Response", smsgText);        
       }
       
+      // TODO: Update Flag
+      UpdateStatus("FINS Members","FINS Members",sRowId,"UA Responsys Flag","Y");
+
       Outputs.SetProperty("ErrorCode", 00);
       Outputs.SetProperty("ErrorMessagge", "Success");
 
-      // TODO: Update Flag
 
   } catch (e) {
     Outputs.SetProperty("Response", e.toString());
@@ -262,4 +264,28 @@ function Element(jsonElement, propName, value, type)
    this.propName = propName;
    this.value = value;
    this.type = type;
+}
+
+function UpdateStatus(bcName, boName, rowId, fieldValue, statusValue) {
+    
+  try {
+    // Update value on Siebel App.
+    var bo = TheApplication().GetBusObject(boName);
+    var bc = bo.GetBusComp(bcName);
+      
+    bc.ClearToQuery();
+    bc.ActivateField(fieldValue);
+    bc.SetSearchSpec("Id", sRowId);
+    bc.ExecuteQuery();
+    if (bc.FirstRecord()) {
+      bc.SetFieldValue(fieldValue, statusValue);
+      bcName.WriteRecord();
+    }
+  } catch (e) {
+    TheApplication().RaiseErrorText(
+      "UpdateStatus Helper: " + " Errors " + e.toString()
+    );
+  } finally {
+
+  }    
 }

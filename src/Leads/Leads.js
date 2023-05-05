@@ -90,7 +90,7 @@ function Leads(Inputs, Outputs) {
     var sLeftFiller = '"';
     var sRightFiller = '",';
     var aInterface = new Array();
-    aInterface[0] = new Element("CUSTOMER_ID_", "CustomerID", "", "string");
+    aInterface[0] = new Element("CUSTOMER_ID", "CustomerID", "", "string");
     aInterface[1] = new Element("EMAIL_ADDRESS_", "EmailAddress", "", "string");
     aInterface[2] = new Element(sScope + "NRO_LEAD", "NroDeAfiliado", "", "string");
     aInterface[3] = new Element(sScope + "ESTADO", "Estado", "", "string");
@@ -126,10 +126,18 @@ function Leads(Inputs, Outputs) {
     
     // Get Leads data
     var boLeads = TheApplication().GetBusObject("Lead");
-    var bcLeads = boMembers.GetBusComp("Lead");
+    var bcLeads = boLeads.GetBusComp("Lead");
     bcLeads.ClearToQuery(); 
     bcLeads.SetSearchSpec("Id", sRowId);
     bcLeads.ExecuteQuery(ForwardOnly);
+
+    // Validate if get a record
+    if (!bcLeads.FirstRecord()) {
+      Outputs.SetProperty("Response", null);
+      Outputs.SetProperty("ErrorCode", 04);
+      Outputs.SetProperty("ErrorMessagge", "Failed to retrieve records on ROW_ID");
+      TheApplication().RaiseErrorText("Failed to retrieve records on ROW_ID");
+    }
 
     bcLeads.ActivateField("UA Voucher Num");
     bcLeads.ActivateField("UA Tipo Viaje");
@@ -153,7 +161,7 @@ function Leads(Inputs, Outputs) {
     bcLeads.ActivateField("Date Converted");
     bcLeads.ActivateField("UA Fecha Cotizacion");
     bcLeads.ActivateField("Retire Reason Code");
-    bcLeads.ActivateField("UA TLMK Template Cotization");
+    bcLeads.ActivateField("UA TLMK Template Cotizacion");
     bcLeads.ActivateField("UA Regreso Viaje");
     bcLeads.ActivateField("UA Edad Pax 1");
     bcLeads.ActivateField("UA Tipo de Organizacion");
@@ -161,7 +169,7 @@ function Leads(Inputs, Outputs) {
     bcLeads.ActivateField("UA Created");
     bcLeads.ActivateField("UA Organizacion Id");
     bcLeads.ActivateField("Owner");
-    bcLeads.ActivateField("UA Canal Venta");
+    //bcLeads.ActivateField("UA Canal Venta"); -- Hay un problema con este campo. 
     bcLeads.ActivateField("Contact Id");
     bcLeads.ActivateField("Contact Last Name");
     bcLeads.ActivateField("Prospect Last Name");
@@ -174,12 +182,15 @@ function Leads(Inputs, Outputs) {
     bcLeads.ActivateField("Calc Mobile Phone");
 
     // Get Lead Contact data
-    var bcLeadContact = boMembers.GetBusComp("UA Lead Contact BC");    
-    bcLeadContact.ClearToQuery(); 
-    bcLeadContact.SetSearchSpec("Id", bcLeads.GetFieldValue("Contact Id"));
-    bcLeadContact.ExecuteQuery(ForwardOnly);
-
-    bcLeadContact.ActivateField("UA Parentesco");
+    var uaParentesco = "";
+/*    if (bcLeads.GetFieldValue("Contact Id") != null) {
+      var bcLeadContact = boLeads.GetBusComp("UA Lead Contact BC");    
+      bcLeadContact.ClearToQuery(); 
+      bcLeadContact.SetSearchSpec("Id", bcLeads.GetFieldValue("Contact Id"));
+      bcLeadContact.ExecuteQuery(ForwardOnly);
+      bcLeadContact.ActivateField("UA Parentesco");
+      uaParentesco = bcLeadContact.GetFieldValue("UA Parentesco");
+    } */
 
     aInterface[0].value = bcLeads.GetFieldValue("UA Contact Document Type") + bcLeads.GetFieldValue("UA Contact Document Number");
     aInterface[1].value = bcLeads.GetFieldValue("Calc Email Address");
@@ -206,10 +217,11 @@ function Leads(Inputs, Outputs) {
     aInterface[22].value = bcLeads.GetFieldValue("UA Voucher Num");
     aInterface[23].value = bcLeads.GetFieldValue("Date Retired");
     aInterface[24].value = bcLeads.GetFieldValue("Retire Reason Code");
-    aInterface[25].value = bcLeads.GetFieldValue("UA TLMK Template Cotization");
-    aInterface[26].value = bcLeadContact.GetFieldValue("UA Parentesco");
+    aInterface[25].value = bcLeads.GetFieldValue("UA TLMK Template Cotizacion");
+    aInterface[26].value = uaParentesco;
     aInterface[27].value = bcLeads.GetFieldValue("Owner");
-    aInterface[28].value = bcLeads.GetFieldValue("UA Canal Venta");
+    //aInterface[28].value = bcLeads.GetFieldValue("UA Canal Venta");
+    aInterface[28].value = "";
     aInterface[29].value = bcLeads.GetFieldValue("Contact Last Name");
     aInterface[30].value = bcLeads.GetFieldValue("Calc First Name");
     aInterface[31].value = bcLeads.GetFieldValue("UA Calc Home Phone");
@@ -274,6 +286,9 @@ function Leads(Inputs, Outputs) {
     '\"insertOnNoMatch\":true,' +
     '\"updateOnMatch\":\"REPLACE_ALL\"}';
 
+    Outputs.SetProperty("Request", sRequest);
+    Outputs.SetProperty("URL", sURL);
+
     // Get authorization token
     var boListOfVal = TheApplication().GetBusObject("List Of Values");
     var bcListOfVal = boListOfVal.GetBusComp("List Of Values");
@@ -291,7 +306,7 @@ function Leads(Inputs, Outputs) {
         "ErrorMessagge",
         "Cannot get Authorization Token value"
       );
-      TheApplication().RaiseErrorText("Error geting HOSTNAME LOV Value");
+      TheApplication().RaiseErrorText("Cannot get Authorization Token value");
     }
 
     // Add headers and body
@@ -327,10 +342,11 @@ function Leads(Inputs, Outputs) {
       Outputs.SetProperty("Response", smsgText);        
     }
       
+    // Update Flag / Status
+    UpdateStatus("Lead","Lead",sRowId,"UA Estado Responsys","OK - Updated");
+
     Outputs.SetProperty("ErrorCode", 00);
     Outputs.SetProperty("ErrorMessagge", "Success");
-
-    // TODO: Update Flag
 
   } catch (e) {
     Outputs.SetProperty("Response", e.toString());
