@@ -63,9 +63,11 @@ function Reintegros(Inputs, Outputs) {
         break;
       case "PROD":
         sScope = "";
+        sScopeCust = "";
         break;
       case "QA":
         sScope = "QA_";
+        sScopeCust = "Q";
         break;
       default:
         Outputs.SetProperty("Response", null);
@@ -86,51 +88,6 @@ function Reintegros(Inputs, Outputs) {
       sListName +
       "/members";
 
-      
-    // Field Parameters
-    var sNroSolicitud: chars = Inputs.GetProperty("NroSolicitud");
-    var sUsuarioCambioEstado: chars = Inputs.GetProperty("UsuarioCambioEstado");
-    var sSubEstadoReintegro: chars = Inputs.GetProperty("SubEstadoReintegro");
-    var sEstadoInformar: chars = Inputs.GetProperty("EstadoInformar");
-    var sOrigenSolicitud: chars = Inputs.GetProperty("OrigenSolicitud");
-    var sUnidadOperativa: chars = Inputs.GetProperty("UnidadOperativa");
-    var sMotivoCaso: chars = Inputs.GetProperty("MotivoCaso");
-    var sVoucherCoberturaDeCaso: chars = Inputs.GetProperty(
-      "VoucherCoberturaDeCaso"
-    );
-    var sNDeCasoAsociado: chars = Inputs.GetProperty("NDeCasoAsociado");
-    var sClienteCasoAsociado: chars = Inputs.GetProperty("ClienteCasoAsociado");
-    var sOrganizacionEmisoraDelCaso: chars = Inputs.GetProperty(
-      "OrganizacionEmisoraDelCaso"
-    );
-    var sEmailReintegro: chars = Inputs.GetProperty("EmailReintegro");
-    var sNPrestacionPrincipal: chars = Inputs.GetProperty(
-      "NPrestacionPrincipal"
-    );
-    var sNomenclador: chars = Inputs.GetProperty("Nomenclador");
-    var sPagadoReintegro: chars = Inputs.GetProperty("PagadoReintegro");
-    var sFechaDePago: chars = Inputs.GetProperty("FechaDePago");
-    var sDiasAuditoriaPago: chars = Inputs.GetProperty("DiasAuditoriaPago");
-    var sConfirmacionPago: chars = Inputs.GetProperty("ConfirmacionPago");
-    var sEstado: chars = Inputs.GetProperty("Estado");
-    var sFechaCreacionSiebel: chars = Inputs.GetProperty("FechaCreacionSiebel");
-    var sPais: chars = Inputs.GetProperty("Pais");
-    var sApellidoPasajero: chars = Inputs.GetProperty("ApellidoPasajero");
-    var sNombrePasajero: chars = Inputs.GetProperty("NombrePasajero");
-    var sFechaCambioEstado: chars = Inputs.GetProperty("FechaCambioEstado");
-    var sFechaAuditoria: chars = Inputs.GetProperty("FechaAuditoria");
-    var sAuditadoMarcaFlag: chars = Inputs.GetProperty("AuditadoMarcaFlag");
-    var sNroDeCaso: chars = Inputs.GetProperty("NroDeCaso");
-    var sMontoPresentado: chars = Inputs.GetProperty("MontoPresentado");
-    var sMontoAutorizado: chars = Inputs.GetProperty("MontoAutorizado");
-    var sMontoRechazado: chars = Inputs.GetProperty("MontoRechazado");
-    var sMoneda: chars = Inputs.GetProperty("Moneda");
-    var sTipoDocumento: chars = Inputs.GetProperty("TipoDocumento");
-    var sNroDocumento: chars = Inputs.GetProperty("NroDocumento");
-    var sEmailAddress: chars = Inputs.GetProperty("EmailAddress");
-    var sCustomerId: chars = Inputs.GetProperty("CustomerId");
-    var sTelefonoContacto: chars = Inputs.GetProperty("TelefonoContacto");
-
     // Build request Body
     var sRequest = '{"recordData": ' + '{"fieldNames":[';
     var sLeftFiller = '"';
@@ -146,8 +103,7 @@ function Reintegros(Inputs, Outputs) {
     aInterface[7] = new Element(sScope + "VOUCHER_COBERTURA_DE_CASO", "VoucherCoberturaDeCaso", "", "string");
     aInterface[8] = new Element(sScope + "N_DE_CASO_ASOCIADO", "NDeCasoAsociado", "", "string");
     aInterface[9] = new Element(sScope + "CLIENTE_CASO_ASOCIADO", "ClienteCasoAsociado", "", "string");
-    // Ver esta columna
-    aInterface[10] = new Element(sScope + "QORGANIZACION_EMISORA_DEL_CASO", "QOrganizacionDelCaso", "", "string");
+    aInterface[10] = new Element(sScopeCust + "ORGANIZACION_EMISORA_DEL_CASO", "OrganizacionDelCaso", "", "string");
     aInterface[11] = new Element(sScope + "EMAIL_REINTEGRO", "EmailReintegro", "", "string");
     aInterface[12] = new Element(sScope + "N_PRESTACION_PRINCIPAL", "NPrestacionPrincipal", "", "string");
     aInterface[13] = new Element(sScope + "NOMENCLADOR", "Nomenclador", "", "string");
@@ -175,161 +131,6 @@ function Reintegros(Inputs, Outputs) {
     aInterface[35] = new Element(sScope + "TELEFONO_CONTACTO", "TelefonoContacto", "", "string");
 
 
-
-      '"QA_NRO_SOLICITUD",' +
-      '"QA_USUARIO_CAMBIO_ESTADO",' +
-      '"QA_SUBESTADO_REINTEGRO",' +
-      '"QA_ESTADO_INFORMAR",' +
-      '"QA_ORIGEN_SOLICITUD",' +
-      '"QA_UNIDAD_OPERATIVA",' +
-      '"QA_MOTIVO_CASO",' +
-      '"QA_VOUCHER_COBERTURA_DE_CASO",' +
-      '"QA_N_DE_CASO_ASOCIADO",' +
-      '"QA_CLIENTE_CASO_ASOCIADO",' +
-      '"QORGANIZACION_EMISORA_DEL_CASO",' + //Ver Esta Columna
-      '"QA_EMAIL_REINTEGRO",' +
-      '"QA_N_PRESTACION_PRINCIPAL",' +
-      '"QA_NOMENCLADOR",' +
-      '"QA_PAGADO_REINTEGRO",' +
-      '"QA_FECHA_DE_PAGO",' +
-      '"QA_DIAS_AUDITORIA_PAGO",' +
-      '"QA_CONFIRMACION_PAGO",' +
-      '"QA_ESTADO",' +
-      '"QA_FECHA_CREACION_SIEBEL",' +
-      '"QA_PAIS",' +
-      '"QA_APELLIDO_PASAJERO",' +
-      '"QA_NOMBRE_PASAJERO",' +
-      '"QA_FECHA_CAMBIO_ESTADO",' +
-      '"QA_FECHA_AUDITORIA",' +
-      '"QA_AUDITADO_MARCA_FLAG",' +
-      '"QA_NRO_DE_CASO",' +
-      '"QA_MONTO_PRESENTADO",' +
-      '"QA_MONTO_AUTORIZADO",' +
-      '"QA_MONTO_RECHAZADO",' +
-      '"QA_MONEDA",' +
-      '"QA_TIPO_DOCUMENTO",' +
-      '"QA_NRO_DOCUMENTO",' +
-      '"EMAIL_ADDRESS_",' +
-      '"CUSTOMER_ID",' +
-      '"QA_TELEFONO_CONTACTO"' +
-      "]," +
-      '"records": [' +
-      "[" +
-      '"' +
-      sNroSolicitud +
-      '",' +
-      '"' +
-      sUsuarioCambioEstado +
-      '",' +
-      '"' +
-      sSubEstadoReintegro +
-      '",' +
-      '"' +
-      sEstadoInformar +
-      '",' +
-      '"' +
-      sOrigenSolicitud +
-      '",' +
-      '"' +
-      sUnidadOperativa +
-      '",' +
-      '"' +
-      sMotivoCaso +
-      '",' +
-      '"' +
-      sVoucherCoberturaDeCaso +
-      '",' +
-      '"' +
-      sNDeCasoAsociado +
-      '",' +
-      '"' +
-      sClienteCasoAsociado +
-      '",' +
-      '"' +
-      sOrganizacionEmisoraDelCaso +
-      '",' +
-      '"' +
-      sEmailReintegro +
-      '",' +
-      '"' +
-      sNPrestacionPrincipal +
-      '",' +
-      '"' +
-      sNomenclador +
-      '",' +
-      "" +
-      sPagadoReintegro +
-      "," +
-      '"' +
-      sFechaDePago +
-      '",' +
-      "" +
-      sDiasAuditoriaPago +
-      "," +
-      "" +
-      sConfirmacionPago +
-      "," +
-      '"' +
-      sEstado +
-      '",' +
-      '"' +
-      sFechaCreacionSiebel +
-      '",' +
-      '"' +
-      sPais +
-      '",' +
-      '"' +
-      sApellidoPasajero +
-      '",' +
-      '"' +
-      sNombrePasajero +
-      '",' +
-      '"' +
-      sFechaCambioEstado +
-      '",' +
-      '"' +
-      sFechaAuditoria +
-      '",' +
-      "" +
-      sAuditadoMarcaFlag +
-      "," +
-      '"' +
-      sNroDeCaso +
-      '",' +
-      "" +
-      sMontoPresentado +
-      "," +
-      "" +
-      sMontoAutorizado +
-      "," +
-      "" +
-      sMontoRechazado +
-      "," +
-      '"' +
-      sMoneda +
-      '",' +
-      '"' +
-      sTipoDocumento +
-      '",' +
-      '"' +
-      sNroDocumento +
-      '",' +
-      '"' +
-      sEmailAddress +
-      '",' +
-      '"' +
-      sCustomerId +
-      '",' +
-      '"' +
-      sTelefonoContacto +
-      '"' +
-      "]" +
-      "]," +
-      '"mapTemplateName": null' +
-      "}," +
-      '"insertOnNoMatch": true,' +
-      '"updateOnMatch": "REPLACE_ALL"' +
-      "}";
 
     Outputs.SetProperty("Request", sRequest);
 

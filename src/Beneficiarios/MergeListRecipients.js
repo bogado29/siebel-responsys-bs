@@ -8,13 +8,7 @@ function MergeListRecipients(Inputs, Outputs) {
       var sDebugMode:chars = Inputs.GetProperty("DebugMode");
   
       // Responsys List Name 
-      var sListName:chars = Inputs.GetProperty("ListName");
-      if (sListName == null) {
-        Outputs.SetProperty("Response", null);
-        Outputs.SetProperty("ErrorCode", 01);
-        Outputs.SetProperty("ErrorMessagge", "Error geting ListName Value");
-        TheApplication().RaiseErrorText("Error geting ListName Value");
-      }
+      var sListName:chars;
   
       var sRowId:chars = Inputs.GetProperty("RowId");
       if (sRowId == null) {

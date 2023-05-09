@@ -133,7 +133,6 @@ function Casos(Inputs, Outputs) {
 
 
     // Build request Body
-    // Build request Body
     var sRequest = '{"recordData": ' + '{"fieldNames":[';
     var sLeftFiller = '"';
     var sRightFiller = '",';

@@ -25,7 +25,7 @@ function MergeListRecipients(Inputs, Outputs) {
       var sCountry:chars = Inputs.GetProperty("Country");
     
       // Responsys List Name 
-      var sListName:chars = Inputs.GetProperty("ListName");
+      var sListName:chars;
   
       var sHostname = TheApplication().InvokeMethod(
         "LookupValue",

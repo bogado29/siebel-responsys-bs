@@ -16,8 +16,6 @@ function VouchersWrapper(Inputs, Outputs) {
     oVSInputs.SetProperty("EmailAddress", "bogado@gmail.com");
 
 
-    GetToken(null,oTokenOutputs);
-
     var sTokenResponse = oTokenOutputs.GetProperty("Response");
     var sTokenCode = oTokenOutputs.GetProperty("ErrorCode");
 

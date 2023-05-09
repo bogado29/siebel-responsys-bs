@@ -11,7 +11,7 @@ function UpdateStatus(bcName, boName, rowId, fieldValue, statusValue) {
       bc.ExecuteQuery();
       if (bc.FirstRecord()) {
         bc.SetFieldValue(fieldValue, statusValue);
-        bcName.WriteRecord();
+        bc.WriteRecord();
       }
     } catch (e) {
       TheApplication().RaiseErrorText(
